@@ -44,11 +44,16 @@ class RandomChar extends Component {
       error: true,
     });
   };
-
+  //   onDescription = () => {
+  //     this.setState({
+  //       descriptionnew: char.description,
+  //     });
+  //     console.log(descriptionnew);
+  //   };
   updateChar = () => {
-    // const id = 1011005;
+    // const id = 1011009;
     const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-
+    // // console.log(id);
     // this.marvelService
     //   //.getAllCharacters().then((res)=>console.log(res)));
     //   .getCharacter(id)
@@ -70,6 +75,18 @@ class RandomChar extends Component {
       .then(this.onCharLoaded)
       .catch(this.onError);
   };
+
+  //   descriptionChange = (char) => {
+  //     const description = char.description;
+  //     switch (description) {
+  //       case description.length === 0:
+  //         return "There is no description for this character";
+  //       case description.length > 210:
+  //         return description.slice(0, 210) + "...";
+  //       default:
+  //         return description;
+  //     }
+  //   };
 
   render() {
     // const { name, description, thumbnail, homepage, wiki } = this.state;
@@ -141,6 +158,14 @@ class RandomChar extends Component {
 
 const View = ({ char }) => {
   const { name, description, thumbnail, homepage, wiki } = char;
+  //   const descriptionNew = this.descriptionChange;
+  if (char.description.length === 0) {
+    char.description = "There is no description for this character";
+  } else {
+    if (char.description.length > 210) {
+      char.description = char.description.slice(0, 210) + " ...";
+    }
+  }
 
   return (
     <div className="randomchar__block">
@@ -149,10 +174,10 @@ const View = ({ char }) => {
         <p className="randomchar__name">{name}</p>
         <p className="randomchar__descr">{description}</p>
         <div className="randomchar__btns">
-          <a href="{homepage}" className="button button__main">
+          <a href={homepage} className="button button__main">
             <div className="inner">homepage</div>
           </a>
-          <a href="{wiki}" className="button button__secondary">
+          <a href={wiki} className="button button__secondary">
             <div className="inner">Wiki</div>
           </a>
         </div>

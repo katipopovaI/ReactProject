@@ -10,6 +10,7 @@ class MarvelService {
     }
     return await res.json();
   };
+
   //   // вывод всех---ошибка!!
   //   getALLCharacters = () => {
   //     return this.getResource(
@@ -17,11 +18,11 @@ class MarvelService {
   //     );
   //   };
 
-  //   getALLCharacters = () => {
-  //     return this.getResource(
-  //       `${this._apiBase}characters?limit=9&offset=210&${this._apiKey}`
-  //     );
-  //   };
+  getALLCharacters = () => {
+    return this.getResource(
+      `${this._apiBase}characters?limit=9&offset=210&${this._apiKey}`
+    );
+  };
 
   //   //вывод по id
   //   getCharacter = (id) => {
@@ -36,8 +37,9 @@ class MarvelService {
     const res = await this.getResource(
       `${this._apiBase}characters/${id}?${this._apiKey}`
     );
+
     // return this._transformCharacter(res);
-    return this._transformCharacter(res.data.result[0]);
+    return this._transformCharacter(res.data.results[0]);
   };
 
   //   _transformCharacter = (res) => {

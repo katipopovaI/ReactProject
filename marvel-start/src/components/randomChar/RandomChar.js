@@ -1,4 +1,5 @@
 import { Component } from "react";
+
 import MarvelService from "../../services/MarvelService";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
@@ -9,10 +10,11 @@ import "./randomChar.scss";
 
 class RandomChar extends Component {
   //временное решение
-  constructor(props) {
-    super(props);
-    this.updateChar();
-  }
+  //   constructor(props) {
+  //     super(props);
+  //     this.updateChar();
+  //     // setInterval(this.updateChar,3000);
+  //   }
 
   //   state = {
   //     name: null,
@@ -31,6 +33,15 @@ class RandomChar extends Component {
   // создаем новый метод на основе класса marvelService
   marvelService = new MarvelService();
 
+  componentDidMount() {
+    this.updateChar();
+    // this.timerId=setInterval(this.updateChar,3000);
+  }
+
+  componentWillUnmount() {
+    // clearInterval(this.timerId);
+  }
+
   onCharLoaded = (char) => {
     this.setState({
       char,
@@ -44,12 +55,7 @@ class RandomChar extends Component {
       error: true,
     });
   };
-  //   onDescription = () => {
-  //     this.setState({
-  //       descriptionnew: char.description,
-  //     });
-  //     console.log(descriptionnew);
-  //   };
+
   updateChar = () => {
     // const id = 1011009;
     const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
@@ -76,29 +82,8 @@ class RandomChar extends Component {
       .catch(this.onError);
   };
 
-  //   descriptionChange = (char) => {
-  //     const description = char.description;
-  //     switch (description) {
-  //       case description.length === 0:
-  //         return "There is no description for this character";
-  //       case description.length > 210:
-  //         return description.slice(0, 210) + "...";
-  //       default:
-  //         return description;
-  //     }
-  //   };
-
   render() {
-    // const { name, description, thumbnail, homepage, wiki } = this.state;
-    // const {
-    //   char: { name, description, thumbnail, homepage, wiki },
-    // } = this.state;
-    const {
-      //   char: { name, description, thumbnail, homepage, wiki },
-      char,
-      loading,
-      error,
-    } = this.state;
+    const { char, loading, error } = this.state;
     // //условный рендеринг
     // if (loading) {
     //   return <Spinner />;
@@ -146,7 +131,10 @@ class RandomChar extends Component {
             Do you want to get to know him better?
           </p>
           <p className="randomchar__title">Or choose another one</p>
-          <button className="button button__main">
+          <button
+            className="button button__main"
+            onClick={() => this.updateChar()}
+          >
             <div className="inner">try it</div>
           </button>
           <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
@@ -158,18 +146,31 @@ class RandomChar extends Component {
 
 const View = ({ char }) => {
   const { name, description, thumbnail, homepage, wiki } = char;
-  //   const descriptionNew = this.descriptionChange;
+  console.log(char);
+
   if (char.description.length === 0) {
     char.description = "There is no description for this character";
-  } else {
-    if (char.description.length > 210) {
-      char.description = char.description.slice(0, 210) + " ...";
-    }
+  } else if (char.description.length > 210) {
+    char.description = char.description.slice(0, 210) + " ...";
+  }
+  let imgStyle = { objectFit: "cover" };
+
+  if (
+    char.thumbnail ===
+    "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
+  ) {
+    imgStyle.objectFit = "contain";
   }
 
   return (
     <div className="randomchar__block">
-      <img src={thumbnail} alt="Random character" className="randomchar__img" />
+      {/* <img src={thumbnail} alt={name} style={imgStyle} /> */}
+      <img
+        src={thumbnail}
+        alt="Random character"
+        style={imgStyle}
+        className="randomchar__img"
+      />
       <div className="randomchar__info">
         <p className="randomchar__name">{name}</p>
         <p className="randomchar__descr">{description}</p>

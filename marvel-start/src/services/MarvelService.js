@@ -13,9 +13,7 @@ class MarvelService {
     if (!res.ok) {
       throw new Error(`Could not fetch ${url}, status:${res.status}`);
     }
-    return await res.json(
-      "https://gateway.marvel.com:443/v1/public/characters?limit=9&offset=210&apikey=f99060e3caee654e07c38be727412e72"
-    );
+    return await res.json();
   };
   //delete
   // getAllCharacters = () => {

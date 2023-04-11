@@ -25,12 +25,10 @@ class CharList extends Component {
 
   onRequest = (offset) => {
     this.onCharListLoading();
-    console.log(this.state);
-    // console.log(this.marvelService.getALLCharacters(offset));
     this.marvelService
       .getAllCharacters(offset)
       .then(this.onCharListLoaded)
-      .cath(this.onError);
+      .catch(this.onError);
   };
 
   onCharListLoading = () => {
@@ -63,34 +61,64 @@ class CharList extends Component {
     });
   };
 
+  itemRefs = [];
+
+  setRef = (ref) => {
+    this.itemRefs.push(ref);
+  };
+
+  focusOnItem = (id) => {
+    console.log(this.itemRefs);
+    this.itemRefs.forEach((item) =>
+      item.classList.remove("char__item_selected")
+    );
+    this.itemRefs[id].classList.add("char__item_selected");
+    this.itemRefs[id].focus();
+  };
+
   renderItems(arr) {
-    let imgStyle = { objectFit: "cover" };
+    const items = arr.map((item, i) => {
+      let imgStyle = { objectFit: "cover" };
+      let classNames = "char__item";
+      // let classNamesnew = "char__item_selected";
 
-    if (
-      arr.thumbnail.path ===
-      "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
-    ) {
-      imgStyle.objectFit = "contain";
-    }
+      if (
+        item.thumbnail ===
+        "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
+      ) {
+        imgStyle = { objectFit: "unset" };
+      }
 
-    arr.map((item) => {
       return (
         <li
-          className="char__item"
+          tabIndex={0}
+          ref={this.setRef}
+          className={classNames}
           key={item.id}
-          onClick={() => this.props.onCharSelected(item.id)}
+          onClick={() => {
+            this.props.onCharSelected(item.id);
+            this.focusOnItem(i);
+          }}
+          onKeyPress={(e) => {
+            if (e.key === " " || e.key === "Enter") {
+              this.props.onCharSelected(item.id);
+              this.focusOnItem(i);
+            }
+          }}
         >
           <img src={item.thumbnail} alt={item.name} style={imgStyle} />
           <div className="char__name">{item.name}</div>
         </li>
       );
     });
+
+    // А эта конструкция вынесена для центровки спиннера/ошибки
+    return <ul className="char__grid">{items}</ul>;
   }
 
   render() {
     const { charList, loading, error, offset, newItemLoading, charEnded } =
       this.state;
-    console.log(this.state);
 
     const items = this.renderItems(charList);
 
@@ -119,50 +147,50 @@ class CharList extends Component {
 
 export default CharList;
 
-// const CharList = () => {
-//   return (
-//     <div className="char__list">
-//       <ul className="char__grid">
-//         <li className="char__item">
-//           <img src={abyss} alt="abyss" />
-//           <div className="char__name">Abyss</div>
-//         </li>
-//         <li className="char__item char__item_selected">
-//           <img src={abyss} alt="abyss" />
-//           <div className="char__name">Abyss</div>
-//         </li>
-//         <li className="char__item">
-//           <img src={abyss} alt="abyss" />
-//           <div className="char__name">Abyss</div>
-//         </li>
-//         <li className="char__item">
-//           <img src={abyss} alt="abyss" />
-//           <div className="char__name">Abyss</div>
-//         </li>
-//         <li className="char__item">
-//           <img src={abyss} alt="abyss" />
-//           <div className="char__name">Abyss</div>
-//         </li>
-//         <li className="char__item">
-//           <img src={abyss} alt="abyss" />
-//           <div className="char__name">Abyss</div>
-//         </li>
-//         <li className="char__item">
-//           <img src={abyss} alt="abyss" />
-//           <div className="char__name">Abyss</div>
-//         </li>
-//         <li className="char__item">
-//           <img src={abyss} alt="abyss" />
-//           <div className="char__name">Abyss</div>
-//         </li>
-//         <li className="char__item">
-//           <img src={abyss} alt="abyss" />
-//           <div className="char__name">Abyss</div>
-//         </li>
-//       </ul>
-//       <button className="button button__main button__long">
-//         <div className="inner">load more</div>
-//       </button>
-//     </div>
-//   );
-// };
+// // const CharList = () => {
+// //   return (
+// //     <div className="char__list">
+// //       <ul className="char__grid">
+// //         <li className="char__item">
+// //           <img src={abyss} alt="abyss" />
+// //           <div className="char__name">Abyss</div>
+// //         </li>
+// //         <li className="char__item char__item_selected">
+// //           <img src={abyss} alt="abyss" />
+// //           <div className="char__name">Abyss</div>
+// //         </li>
+// //         <li className="char__item">
+// //           <img src={abyss} alt="abyss" />
+// //           <div className="char__name">Abyss</div>
+// //         </li>
+// //         <li className="char__item">
+// //           <img src={abyss} alt="abyss" />
+// //           <div className="char__name">Abyss</div>
+// //         </li>
+// //         <li className="char__item">
+// //           <img src={abyss} alt="abyss" />
+// //           <div className="char__name">Abyss</div>
+// //         </li>
+// //         <li className="char__item">
+// //           <img src={abyss} alt="abyss" />
+// //           <div className="char__name">Abyss</div>
+// //         </li>
+// //         <li className="char__item">
+// //           <img src={abyss} alt="abyss" />
+// //           <div className="char__name">Abyss</div>
+// //         </li>
+// //         <li className="char__item">
+// //           <img src={abyss} alt="abyss" />
+// //           <div className="char__name">Abyss</div>
+// //         </li>
+// //         <li className="char__item">
+// //           <img src={abyss} alt="abyss" />
+// //           <div className="char__name">Abyss</div>
+// //         </li>
+// //       </ul>
+// //       <button className="button button__main button__long">
+// //         <div className="inner">load more</div>
+// //       </button>
+// //     </div>
+// //   );
+// // };

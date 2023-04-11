@@ -34,6 +34,7 @@ class RandomChar extends Component {
   marvelService = new MarvelService();
 
   componentDidMount() {
+    console.log(1);
     this.updateChar();
     // this.timerId=setInterval(this.updateChar,3000);
   }
@@ -80,10 +81,12 @@ class RandomChar extends Component {
       .getCharacter(id)
       .then(this.onCharLoaded)
       .catch(this.onError);
+    console.log(this.state);
   };
 
   render() {
     const { char, loading, error } = this.state;
+    console.log(this.state);
     // //условный рендеринг
     // if (loading) {
     //   return <Spinner />;

@@ -56,19 +56,19 @@ class App extends Component {
           <ErrorBoundary>
             <RandomChar />
           </ErrorBoundary>
-          <ErrorBoundary>
-            <div className="char__content">
-              <ErrorBoundary>
-                <CharList onCharSelected={this.onCharSelected} />
-                {/* <CharList /> */}
-              </ErrorBoundary>
 
-              <ErrorBoundary>
-                <CharInfo charId={this.state.selectedChar} />
-                {/* <CharInfo /> */}
-              </ErrorBoundary>
-            </div>
-          </ErrorBoundary>
+          <div className="char__content">
+            <ErrorBoundary>
+              <CharList onCharSelected={this.onCharSelected} />
+              {/* <CharList /> */}
+            </ErrorBoundary>
+
+            <ErrorBoundary>
+              <CharInfo charId={this.state.selectedChar} />
+              {/* <CharInfo /> */}
+            </ErrorBoundary>
+          </div>
+
           <img className="bg-decoration" src={decoration} alt="vision" />
         </main>
       </div>

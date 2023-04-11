@@ -47,7 +47,6 @@ class CharInfo extends Component {
   };
 
   onCharLoaded = (char) => {
-    console.log(this.marvelService);
     this.setState({
       char,
       loading: false,
@@ -68,15 +67,13 @@ class CharInfo extends Component {
   };
 
   render() {
-    console.log(this.props);
-
     const { char, loading, error } = this.state;
 
     const skeleton = char || loading || error ? null : <Skeleton />;
     const errorMesage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
     const content = !(loading || error || !char) ? <View char={char} /> : null;
-    console.log(this.state);
+
     return (
       <div className="char__info">
         {skeleton}

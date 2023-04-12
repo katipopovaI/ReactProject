@@ -2,10 +2,6 @@ import "./comicsList.scss";
 import uw from "../../resources/img/UW.png";
 import xMen from "../../resources/img/x-men.png";
 
-import { Component } from "react";
-
-import MarvelService from "../../services/MarvelService";
-
 const ComicsList = () => {
   return (
     <div className="comics__list">

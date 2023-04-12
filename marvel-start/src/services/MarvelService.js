@@ -15,12 +15,7 @@ class MarvelService {
     }
     return await res.json();
   };
-  //delete
-  // getAllCharacters = () => {
-  //   return this.getResource();
-  // };
-  //!!!!!!!!!!!!!!!!!!!!!!!!!
-  //offset = this._baseOffset
+
   getAllCharacters = async (offset = this._baseOffset) => {
     const res = await this.getResource(
       // `${this._apiBase}characters?limit=9&offset=210&${this._apiKey}`

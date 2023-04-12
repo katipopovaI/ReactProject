@@ -1,4 +1,3 @@
-import ComicsList from "../comicsList/ComicsList";
 import "./appHeader.scss";
 
 const AppHeader = () => {
